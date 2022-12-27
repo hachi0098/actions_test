@@ -6,7 +6,7 @@ on:
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
-    if: ${{ contains(github.event.commits.*.message, '[exec ci]') }}
+    if: contains(toJSON(github.event.commits.*.message), 'exec_ci')
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
