@@ -1,23 +1,23 @@
-name: pull request approval workflow
+# name: pull request approval workflow
 
-on:
-  pull_request_review:
-    branches:
-      - develop
+# on:
+#   pull_request_review:
+#     branches:
+#       - develop
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check if all reviews are approved
-        id: check-reviews
-        run: |
-          review_state=$(jq --raw-output .review.state "$GITHUB_EVENT_PATH")
-          if [ "$review_state" != "approved" ]; then
-            echo "This pull request does not yet have all reviews approved."
-            exit 1
-          fi
-      - name: Run workflow
-        if: steps.check-reviews.outputs.review_state == 'approved'
-        run: |
-          echo "All reviews are approved. Running workflow..."
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Check if all reviews are approved
+#         id: check-reviews
+#         run: |
+#           review_state=$(jq --raw-output .review.state "$GITHUB_EVENT_PATH")
+#           if [ "$review_state" != "approved" ]; then
+#             echo "This pull request does not yet have all reviews approved."
+#             exit 1
+#           fi
+#       - name: Run workflow
+#         if: steps.check-reviews.outputs.review_state == 'approved'
+#         run: |
+#           echo "All reviews are approved. Running workflow..."
