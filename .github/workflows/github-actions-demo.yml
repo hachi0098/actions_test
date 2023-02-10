@@ -21,8 +21,6 @@ jobs:
             exit 1
           fi
 
-          echo --------------------
-
           approved=true
           for review in $(echo "$reviews" | jq -r '.[].state'); do
             echo $review
@@ -32,10 +30,6 @@ jobs:
               break
             fi
           done
-
-          echo $approved
-
-          echo --------------------
 
           # If all reviews are approved, continue with next step
           if [ "$approved" = true ]; then
