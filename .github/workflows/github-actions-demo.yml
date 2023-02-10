@@ -16,6 +16,8 @@ jobs:
           pull_request_number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
           echo $pull_request_number
 
+          echo $GITHUB_EVENT_PATH
+
           # Get the repository name and owner
           repository=$(jq --raw-output .repository.full_name "$GITHUB_EVENT_PATH")
           echo $repository
