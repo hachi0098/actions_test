@@ -15,27 +15,9 @@ jobs:
           pull_request_number=$(echo $GITHUB_REF | sed -e 's/[^0-9]//g')
           repository=$(jq --raw-output .repository.full_name "$GITHUB_EVENT_PATH")
           reviews=$(curl -s -H "Authorization: $GITHUB_TOKEN" "https://api.github.com/repos/$repository/pulls/$pull_request_number/reviews")
-          
-          if [ "$(echo "$reviews"} | jq 'length')" -eq 0]; then
-            approved=false
-            echo 'No reviews found.'
-            exit 1
-          fi
+          echo $reviews
+          approved=false
 
-          # # Check if all reviews have state "APPROVED"
-          # approved=true
-          # for review in $(echo "$reviews" | jq -r '.[].state'); do
-          #   if [ "$review" != "APPROVED" ]; then
-          #     approved=false
-          #     break
-          #   fi
-          # done
-          # # If all reviews are approved, continue with next step
-          # if [ "$approved" = true ]; then
-          #   echo ::set-output name=approved::true
-          # else
-          #   echo ::set-output name=approved::false
-          # fi
       - name: check status
         if: steps.check-reviews.outputs.approved != 'true'
         run: exit 1  
