@@ -14,7 +14,7 @@ jobs:
           repo-token: ${{ secrets.TOKEN }}
       - name: Run tests
         if: steps.check-reviews.outputs.all_approved == 'true'
-          - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+        run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
     # runs-on: ubuntu-latest
     # if: contains(toJSON(github.event.commits.*.message), 'exec_ci')
     # steps:
@@ -30,15 +30,15 @@ jobs:
     #       ls ${{ github.workspace }}
     #   - run: echo "🍏 This job's status is ${{ job.status }}."
 
-jobs:
-  testing:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Check for review approvals
-        uses: mxschmitt/action-github-check-reviews-action@v1.2.0
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Run tests
-        uses: ./.github/actions/test
-        if: steps.check-reviews.outputs.all_approved == 'true'
+# jobs:
+#   testing:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v2
+#       - name: Check for review approvals
+#         uses: mxschmitt/action-github-check-reviews-action@v1.2.0
+#         with:
+#           repo-token: ${{ secrets.GITHUB_TOKEN }}
+#       - name: Run tests
+#         uses: ./.github/actions/test
+#         if: steps.check-reviews.outputs.all_approved == 'true'
