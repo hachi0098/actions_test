@@ -18,7 +18,7 @@ jobs:
           echo $reviews
           approved=false
 
-          echo "$(echo "$reviews"} | jq 'length')" -eq 0
+          echo "$(echo "$reviews"} | jq 'length')"
 
           if [ "$(echo "$reviews"} | jq 'length')" -eq 0]; then
             approved=false
