@@ -2,6 +2,7 @@ name: Trigger another workflow on pull request review
 on:
   pull_request_review:
     types: [submitted]
+
 jobs:
   check-reviews:
     runs-on: ubuntu-latest
