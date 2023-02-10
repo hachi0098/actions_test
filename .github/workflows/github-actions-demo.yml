@@ -22,12 +22,17 @@ jobs:
             exit 1
           fi
 
+          echo --------------------
+
           for review in $(echo "$reviews" | jq -r '.[].state'); do
+            echo $review
             if [ "$review" != "APPROVED" ]; then
               approved=false
               break
             fi
           done
+
+          echo --------------------
 
           # If all reviews are approved, continue with next step
           if [ "$approved" = true ]; then
