@@ -27,6 +27,7 @@ jobs:
           for review in $(echo "$reviews" | jq -r '.[].state'); do
             echo $review
             if [ "$review" != "APPROVED" ]; then
+              echo in
               approved=false
               break
             fi
