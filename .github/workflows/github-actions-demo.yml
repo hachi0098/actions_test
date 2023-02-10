@@ -19,7 +19,7 @@ jobs:
 
           echo "$(echo "$reviews" | jq -r 'length')"
           echo $("$(echo "$reviews" | jq -r 'length')" -eq 0)
-          if [ "$(echo "$reviews" | jq -r 'length')" = 0]; then
+          if [ "$(echo "$reviews" | jq '. | length')" = 0]; then
             echo 'No reviews found.'
             exit 1
           fi
