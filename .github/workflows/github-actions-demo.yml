@@ -18,6 +18,29 @@ jobs:
           echo $reviews
           approved=false
 
+          echo "$(echo "$reviews"} | jq 'length')" -eq 0
+
+          if [ "$(echo "$reviews"} | jq 'length')" -eq 0]; then
+            approved=false
+            echo 'No reviews found.'
+            exit 1
+          fi
+
+          # # Check if all reviews have state "APPROVED"
+          # approved=true
+          # for review in $(echo "$reviews" | jq -r '.[].state'); do
+          #   if [ "$review" != "APPROVED" ]; then
+          #     approved=false
+          #     break
+          #   fi
+          # done
+          # # If all reviews are approved, continue with next step
+          # if [ "$approved" = true ]; then
+          #   echo ::set-output name=approved::true
+          # else
+          #   echo ::set-output name=approved::false
+          # fi
+
       - name: check status
         if: steps.check-reviews.outputs.approved != 'true'
         run: exit 1  
