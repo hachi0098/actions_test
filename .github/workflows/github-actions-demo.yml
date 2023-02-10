@@ -16,7 +16,8 @@ jobs:
           pull_request_number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
           echo $pull_request_number
 
-          echo "refs/pull/33/merge" | sed -e 's/[^0-9]//g'
+          pull_request_number=$(echo $GITHUB_REF | sed -e 's/[^0-9]//g')
+          echo $pull_request_number
 
           echo $GITHUB_EVENT_PATH
 
