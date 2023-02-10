@@ -32,6 +32,8 @@ jobs:
             fi
           done
 
+          echo $approved
+
           echo --------------------
 
           # If all reviews are approved, continue with next step
