@@ -14,15 +14,15 @@ jobs:
         run: |
           # Get the pull request number
           pull_request_number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
-          echo pull_request_number
+          echo $pull_request_number
 
           # Get the repository name and owner
           repository=$(jq --raw-output .repository.full_name "$GITHUB_EVENT_PATH")
-          echo repository
+          echo $repository
 
           # Get the state of all reviews for the pull request
           reviews=$(curl -s -H "Authorization: token $GITHUB_TOKEN" "https://api.github.com/repos/$repository/pulls/$pull_request_number/reviews")
-          echo reviews
+          echo $reviews
           
           # Check if all reviews have state "APPROVED"
           approved=true
