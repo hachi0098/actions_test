@@ -12,37 +12,33 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Get the pull request number
-          pull_request_number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
-          # Get the repository name and owner
+          pull_request_number=$(echo $GITHUB_REF | sed -e 's/[^0-9]//g')
           repository=$(jq --raw-output .repository.full_name "$GITHUB_EVENT_PATH")
-          # Get the state of all reviews for the pull request
-          reviews=$(curl -s -H "Authorization: token $GITHUB_TOKEN" "https://api.github.com/repos/$repository/pulls/$pull_request_number/reviews")
-          # Check if all reviews have state "APPROVED"
+          reviews=$(curl -s -H "Authorization: $GITHUB_TOKEN" "https://api.github.com/repos/$repository/pulls/$pull_request_number/reviews")
+
+          if [ "$(echo "$reviews" | jq 'length')" -eq 0]; then
+            echo 'No reviews found.'
+            exit 1
+          fi
+
           approved=true
           for review in $(echo "$reviews" | jq -r '.[].state'); do
+            echo $review
             if [ "$review" != "APPROVED" ]; then
               approved=false
+              echo $approved
               break
             fi
           done
+
           # If all reviews are approved, continue with next step
           if [ "$approved" = true ]; then
             echo ::set-output name=approved::true
           else
             echo ::set-output name=approved::false
           fi
+
       - name: check status
         if: steps.check-reviews.outputs.approved != 'true'
         run: exit 1  
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - name: Check out repository code
-        uses: actions/checkout@v3
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
-      - run: echo "🍏 This job's status is ${{ job.status }}."
