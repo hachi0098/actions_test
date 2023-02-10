@@ -16,7 +16,7 @@ jobs:
           repository=$(jq --raw-output .repository.full_name "$GITHUB_EVENT_PATH")
           reviews=$(curl -s -H "Authorization: $GITHUB_TOKEN" "https://api.github.com/repos/$repository/pulls/$pull_request_number/reviews")
           
-          if [ "$(echo "$reviews"} | jq 'length')" -eq 0]: then
+          if [ "$(echo "$reviews"} | jq 'length')" -eq 0]; then
             approved=false
             echo 'No reviews found.'
             exit 1
