@@ -13,7 +13,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Get the pull request number
-          pull_request_number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
+          pull_request_number=$(echo $GITHUB_REF | sed -e 's/[^0-9]//g')
           echo $pull_request_number
 
           # Get the repository name and owner
