@@ -30,7 +30,7 @@ jobs:
               break
             fi
           done
-          approved = false
+          approved=false
 
           # If all reviews are approved, continue with next step
           if [ "$approved" = true ]; then
