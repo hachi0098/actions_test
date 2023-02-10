@@ -18,8 +18,8 @@ jobs:
           reviews=$(curl -s -H "Authorization: $GITHUB_TOKEN" "https://api.github.com/repos/$repository/pulls/$pull_request_number/reviews")
 
           echo "$(echo "$reviews" | jq -r 'length')"
-          echo $("$(echo "$reviews" | jq -r 'length')" -eq 0)
-          if [ "$(echo "$reviews" | jq '. | length')" = 0]; then
+
+          if [ $(echo "$reviews" | jq '. | length') -eq 0]; then
             echo 'No reviews found.'
             exit 1
           fi
