@@ -25,7 +25,6 @@ jobs:
 
           approved=true
           for review in $(echo "$reviews" | jq -r '.[].state'); do
-            echo $review
             if [ "$review" != "APPROVED" ]; then
               approved=false
               break
@@ -42,5 +41,7 @@ jobs:
 
       - name: check status
         if: steps.check-reviews.outputs.approved != 'true'
-        run: exit 1  
+        run: |
+          echo Not approved
+          exit 1
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
